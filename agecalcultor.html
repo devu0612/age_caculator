@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator App </title>
+   <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.container {
+  width: 100%;
+  height: 100vh;
+  background-image: linear-gradient(#6527be, #40128b);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.container form {
+  width: 450px;
+  background-color: whitesmoke;
+  padding: 20px 30px;
+  margin-bottom: 20px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border: double 2px black;
+}
+
+.container form .main-title {
+  font-size: 18px;
+  color: #6527be;
+  text-align: center;
+  padding: 5px 0;
+}
+
+.container form .line-break {
+  width: 60%;
+  height: 3px;
+  background: #6527be;
+  margin: 4px auto;
+}
+
+.container form .input_field .input-label {
+  
+  display: inline-block;
+  color: #6527be;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 20px 0 2px;
+}
+
+.container form .input_field input,
+.container form .input_field button {
+  width: 100%;
+  height: 40px;
+  font-size: 15px;
+  padding: 5px;
+  margin: 5px 0;
+  border: 1px solid #6527be;
+  border-radius: 3px;
+  border: dashed 1px black;
+}
+
+.container form .input_field #error {
+  display: block;
+  text-align: end;
+  font-size: 16px;
+  color: #6527be;
+}
+
+.container form .btn-submit {
+  background-color: #6527be;
+  color: whitesmoke;
+  padding: 5px 0 !important;
+  margin-top: 15px !important;
+  cursor: pointer;
+}
+
+.container #age {
+  padding: 5px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: whitesmoke;
+}
+
+.container #age span {
+  color: #dc143c;
+}
+
+/* Device Responsive */
+@media (max-width: 760px) {
+  .container form {
+    width: 400px;
+  }
+}
+
+@media (max-width: 460px) {
+  .container form {
+    width: 320px;
+  }
+}
+   </style>
+</head>
+
+<body>
+    <div class="container">
+      
+        <form>
+            <div class="main-title">
+                <h4>Age Calculator</h4>
+                <img style="width: 50%;" src="https://agecalculatoronline.net/wp-content/uploads/2023/04/Age-Calculater.jpg" alt="age calculate">
+            </div>
+            <hr class="line-break">
+            <div class="input_field">
+
+                <label for="date" class="input-label">Birth Date</label>
+                <br>
+                <input type="date" name="date" id="date">
+                <span id="error"></span>
+            </div>
+            <div class="input_field">
+                <button type="button" class="btn-submit" onclick="calculateAge()">Get Age</button>
+            </div>
+        </form>
+       
+        <div id="age"></div>
+    </div>    
+    <script>
+    let userDate = document.getElementById("date");
+    userDate.max = new Date().toISOString().split("T")[0];
+    function calculateAge() {
+    let userAge = document.getElementById("age");
+    userAge.innerHTML = "";
+    let birthDate = new Date(userDate.value);
+    if (birthDate == "Invalid Date") {
+    let userError = document.getElementById("error");
+    userError.innerHTML = "Date is invalid*";
+    } 
+    else {
+    let userError = document.getElementById("error");
+    userError.innerHTML = "";
+    let userDay = birthDate.getDate();
+    let userMonth = birthDate.getMonth() + 1;
+    let userYear = birthDate.getFullYear();
+    let todayDate = new Date();
+    let todayDay = todayDate.getDate();
+    let todayMonth = todayDate.getMonth() + 1;
+    let todayYear = todayDate.getFullYear();
+    let ageDay, ageMonth, ageYear;
+    ageYear = todayYear - userYear;
+    if (todayMonth >= userMonth) {
+      ageMonth = todayMonth - userMonth;
+    } else {
+      ageYear--;
+      ageMonth = 12 + todayMonth - userMonth;
+    }
+    if (todayDay >= userDay) {
+      ageDay = todayDay - userDay;
+    } else {
+      ageMonth--;
+      ageDay = getDaysInMonth(userYear, userMonth) + todayDay - userDay;
+    }
+    if (ageMonth < 0) {
+      ageMonth = 11;
+      ageYear--;
+    }
+    userAge.innerHTML = `Your age is: <span>${ageYear}</span> years <span>${ageMonth}</span> months <span>${ageDay}</span> days`;
+  }
+}
+function getDaysInMonth(year, month) {
+  return new Date(year, month, 0).getDate();
+}
+    </script>
+</body>
+
+</html>
